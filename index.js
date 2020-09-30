@@ -13,6 +13,7 @@ let PORT = 8080;
 const app = express();
 
 /* load routes */
+const credencialesRoutes = require('./routes/credenciales');
 
 
 /* use cors */
@@ -28,6 +29,9 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/', express.static(path.join(__dirname, 'public/js')));
 app.use('/', express.static(path.join(__dirname, 'public/css')));
 app.use('/', express.static(path.join(__dirname, 'public/views')));
+
+
+app.use('/api', credencialesRoutes);
 
 
 const configuration = {
