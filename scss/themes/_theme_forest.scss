@@ -1,0 +1,28 @@
+$primary-color: #233947	;
+$secondary-color: #304b5c;
+$tertiary-color: #e9d78e;
+$default: rgb(0, 50, 124);
+$default-hard: #2F6468;
+$default-last: #5B323E;
+
+
+$li-color: rgb(39, 38, 38);
+$li-hover-color: rgb(19, 17, 17);
+$navbar-color: $default-hard;
+$text-default-color: white;
+$hello-button-color: #ffc93c;
+$secondary-button-color: #dd2c00;
+$third-button-color: #318fb5;
+body.forest {
+    background-color: $primary-color !important;
+    color: white !important;
+
+    @include sidebar($secondary-color, $text-default-color, $default-hard, $li-hover-color, $default);
+    @include navbar($navbar-color);
+    @include hello-world($secondary-color);
+    @include button($default-hard, $text-default-color);
+    @include button($hello-button-color, $text-default-color, "primary");
+    @include button($secondary-button-color, $text-default-color, "secondary");
+    @include button($third-button-color, $text-default-color, "third");
+
+}

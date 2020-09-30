@@ -1,0 +1,29 @@
+$primary-color: black;
+$secondary-color: #4c4e52;
+$tertiary-color: rgb(0, 204, 255);
+$default: #f6f4e6;
+
+
+$fourth-color: #333;
+$fifth-color: yellow;
+$sixth-color: orange;
+$li-color: rgb(39, 38, 38);
+$li-hover-color: rgb(19, 17, 17);
+$navbar-color: #0f3460;
+$text-default-color: white;
+$secondary-button-color: #dd2c00;
+$third-button-color: #2F6468;
+
+body.dark {
+    background-color: $primary-color !important;
+    color: $default !important;
+
+    @include sidebar($li-color, $sixth-color, $secondary-color, $li-hover-color, $default);
+    @include navbar($navbar-color);
+    @include hello-world($li-color);
+    @include button($tertiary-color, $text-default-color);
+    @include button($sixth-color, $text-default-color, "primary");
+    @include button($secondary-button-color, $text-default-color, "secondary");
+    @include button($third-button-color, $text-default-color, "third");
+
+}

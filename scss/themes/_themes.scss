@@ -1,0 +1,73 @@
+%hero {
+    border-radius: 4px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@mixin sidebar($bg-color, $text-color, $li-color, $li-hover-color, $default) {
+
+    li {
+        background-color: transparent;
+        color: blanchedalmond;
+    }
+
+    .sidenav ul {
+        background-color: $bg-color !important;
+        border-radius: 1px;
+    }
+
+    ul a {
+        color: $text-color !important;
+    }
+
+    .first-li {
+        background-color: $li-color !important;
+        border-radius: 10px;
+    }
+
+    .first-li:hover {
+        background-color: $li-hover-color;
+        border-radius: 10px;
+    }
+
+    .sidenav ul li:first-of-type {
+        color: $default;
+    }
+}
+
+@mixin navbar($bg-color) { 
+    nav {
+        background-color: $bg-color;
+    }
+}
+
+@mixin hello-world($bg-color) {
+    .hero {
+        background-color: $bg-color;
+        border-radius: 5px;
+    }
+}
+
+@mixin button($bg-color, $text-color, $classname : "default"){
+    @if $classname == "default" {
+        button {
+            background-color: $bg-color;
+            color: $text-color;
+            border: solid 1px darken($color: $bg-color, $amount: 10);
+        }
+
+        button:hover, button:focus {
+            background-color: darken($color: $bg-color, $amount: 7);
+        }
+    } @else {
+        button.#{$classname} {
+            background-color: $bg-color;
+            color: $text-color;
+            border: solid 1px darken($color: $bg-color, $amount: 10);
+        }
+    }
+}
+
+@import 'theme_dark';
+@import 'theme_forest';
