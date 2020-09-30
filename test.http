@@ -1,0 +1,7 @@
+### CREDENCIALES ###
+
+GET https://localhost:8080/api/credenciales
+
+
+###
+GET  https://localhost:8080/api/login
