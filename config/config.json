@@ -1,0 +1,3 @@
+{
+    "DB_URL" : "mongodb+srv://ipanchomx:holapanchomx123@cluster0.qayzu.mongodb.net/TLS?retryWrites=true&w=majority"
+}
