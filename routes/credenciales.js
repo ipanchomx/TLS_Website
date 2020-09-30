@@ -8,6 +8,8 @@ let api = express.Router();
 
 api.get('/credenciales', CredencialesController.getCredenciales);
 
-api.get('/signup', CredencialesController.createCredencial);
+api.post('/signup', CredencialesController.createCredencial);
+api.post('/login', CredencialesController.getCredencial);
+
 
 module.exports = api;
