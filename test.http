@@ -4,4 +4,35 @@ GET https://localhost:8080/api/credenciales
 
 
 ###
-GET  https://localhost:8080/api/login
+GET  https://localhost:8080/api/signup
+
+###
+POST  https://localhost:8080/api/signup
+Host: localhost:8080
+Content-Type: application/json
+
+{
+    "email" : "ipanchitomx@gmail",
+    "password" :"123456789"
+}
+
+### LOGIN ###
+### TRUE
+POST  https://localhost:8080/api/login
+Host: localhost:8080
+Content-Type: application/json
+
+{
+    "email" : "ipanchitomx@gmail",
+    "password" :"123456789"
+}
+
+### FALSE
+POST  https://localhost:8080/api/login
+Host: localhost:8080
+Content-Type: application/json
+
+{
+    "email" : "ipanchitomx@gmail",
+    "password" :"123456789"
+}
