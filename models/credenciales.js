@@ -13,4 +13,5 @@ let schema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("credenciales", schema);
+
+module.exports = mongoose.model("Credenciales", schema);
