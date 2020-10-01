@@ -8,11 +8,9 @@ let getCredenciales = function (req, res) {
     Credenciales.find((err, creds) => {
         if (err) {
             console.log(err);
-            res.status(500).send({
-                message: 'Credenciales no encontradas',
-                results: []
-            });
+            res.status(500).send({message : 'Server error.', error : `${err}`});
         } else {
+            
             let array = [];
             creds.forEach(element => array.push(element));
 
@@ -30,7 +28,9 @@ let createCredencial = function (req, res) {
         email,
         password
     } = req.body;
-
+    
+    console.log(req.body);
+    
     Credenciales.findOne({email: email})
         .then(user => {
             if(!user) {
@@ -40,13 +40,17 @@ let createCredencial = function (req, res) {
                     password: hash
                 }, (err) => {
                     if (err) {
-                        return console.log(err);
+                        console.log(err);
+                        res.status(500).send({message : 'Server error.', error : `${err}`});
+                    } else {
+                        res.status(201).send({message : 'Usuario registrado'});
                     }
                 })
             }
         }
         ).catch(err => {
-            res.send(`error: `+ err);
+            console.log(err);
+            res.status(500).send({message : 'Server error.', error : `${err}`});
         })
 
 }
@@ -65,7 +69,13 @@ let getCredencial = function(req, res) {
                 console.log("Usuario en base de datos");                
                 console.log(user);                
                 console.log(bcrypt.compareSync(password, user.password)); // true
+                if(bcrypt.compareSync(password, user.password)) {
+                    res.status(200).send({message :'Usuario autorizado'});
+                }
             }
+        }).catch(err => {
+            console.log(err);
+            res.status(500).send({message : 'Server error.', error : `${err}`});
         })
 }
 
