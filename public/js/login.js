@@ -5,6 +5,7 @@ let span = document.getElementById('spanID');
 let submit = document.getElementById('submit');
 let formLogin = document.getElementById('formLogin');
 let campos;
+let data;
 
 span.style.display = 'none';
 
@@ -70,7 +71,13 @@ let sendData = function() {
         
         } else {
             //console.log(xhr.responseText); // Significa que fue exitoso
+            data = JSON.parse(xhr.response);
+            console.log(data);
+            sessionStorage.login = true;
+            sessionStorage.email = data.email;
+            console.log(sessionStorage);
             alert(xhr.responseText);
+
             window.location.href = "../index.html";
         }
     };
