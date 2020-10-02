@@ -4,13 +4,19 @@ const express = require("express");
 const https = require("https");
 const fs = require("fs");
 const path = require("path");
+const fileUpload = require('express-fileupload');
 
 let mongoose = require('mongoose');
 let config = require('./config/config');
+
 let PORT = 8080;
 
 
 const app = express();
+
+// default options
+app.use(fileUpload());
+
 
 /* load routes */
 const credencialesRoutes = require('./routes/credenciales');
@@ -39,11 +45,33 @@ const configuration = {
     key: fs.readFileSync(path.join(__dirname, "localhost-key.pem")),
 }
 
-/*
-https.createServer(config, app).listen(8080, () => {
-    console.log("Tenemos HTTPS");
-})
-*/
+app.post('/upload', function (req, res) {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.file;
+
+    //console.log('sampleFile: ',sampleFile);
+    console.log('sampleFile2: ',sampleFile);
+    const routeFilename = path.join(__dirname, 'uploads', sampleFile.name);
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(routeFilename, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send({
+                message: err
+            });
+        } else {
+            res.status(201).send({
+                message : 'File uploaded!',
+                filename : sampleFile.name, 
+                filePath : routeFilename
+            });
+        }
+    });
+});
 
 mongoose.connect(config.DB_URL, {
         useCreateIndex: true,
@@ -52,10 +80,8 @@ mongoose.connect(config.DB_URL, {
     })
     .then(() => {
         console.log("\n\n====> Connected to Mongo database!");
-
         https.createServer(configuration, app).listen(PORT, () => {
             console.log("====> Local Server created in https://localhost:" + PORT + "" + "\n\n");
         });
-
     })
     .catch(err => console.log(err));
