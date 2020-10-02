@@ -53,7 +53,7 @@ app.post('/upload', function (req, res) {
     let sampleFile = req.files.file;
 
     //console.log('sampleFile: ',sampleFile);
-    console.log('sampleFile2: ',sampleFile);
+    //console.log('sampleFile2: ',sampleFile);
     const routeFilename = path.join(__dirname, 'uploads', sampleFile.name);
 
     // Use the mv() method to place the file somewhere on your server
