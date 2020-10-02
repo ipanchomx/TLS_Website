@@ -60,17 +60,21 @@ let getCredencial = function(req, res) {
         email,
         password
     } = req.body;
-
+/*
     console.log("Usuario a loggearse");
-    console.log(req.body);
+    console.log(req.body);*/
     Credenciales.findOne({email: email})
         .then(user => {
             if(user) {
+                /*
                 console.log("Usuario en base de datos");                
                 console.log(user);                
-                console.log(bcrypt.compareSync(password, user.password)); // true
+                console.log(bcrypt.compareSync(password, user.password)); */
+                // true
                 if(bcrypt.compareSync(password, user.password)) {
-                    res.status(200).send({message :'Usuario autorizado'});
+                    res.status(200).send({message :'Usuario autorizado', 
+                    email : user.email
+                });
                 }
             }
         }).catch(err => {
