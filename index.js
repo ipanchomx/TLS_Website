@@ -73,6 +73,17 @@ app.post('/upload', function (req, res) {
     });
 });
 
+app.get('/getFiles', function(req, res) {
+    let url = path.join(__dirname, 'uploads');
+    let files = fs.readdirSync(url);
+    console.log(files);
+    res.status(200).send({
+        message : 'Files founded!',
+        files : files,
+        filepath : url
+    });
+});
+
 mongoose.connect(config.DB_URL, {
         useCreateIndex: true,
         useNewUrlParser: true,
