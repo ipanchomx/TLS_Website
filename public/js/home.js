@@ -57,3 +57,42 @@ let cargarDocs = function() {
         </div>`
     });
 }
+
+let navbar = document.getElementById('navBar');
+
+let cerrarSesion = function () {
+    sessionStorage.login = false;
+    window.location.href = "../index.html";
+
+}
+
+if (sessionStorage.login == 'true') {
+    navBar.innerHTML = `<a href="../index.html">
+    TLS project
+    </a>
+    <a href="./home.html">
+        Home
+    </a>
+    <a href="./upload.html">
+        Upload
+    </a>
+    <a href="">
+        Contact
+    </a>
+    <a class="login" id="idLogin" onclick="cerrarSesion()">
+        ${sessionStorage.email}
+    </a>`
+} else {
+    navBar.innerHTML = `<a href="../index.html">
+    TLS project
+    </a>
+    <a href="./home.html">
+        Home
+    </a>
+    <a href="./upload.html">
+        Upload
+    </a>
+    <a href="">
+        Contact
+    </a>`
+}
