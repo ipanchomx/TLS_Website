@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const fileUpload = require('express-fileupload');
 const crypto = require('crypto');
+const qrcode = require('qrcode');
 
 let mongoose = require('mongoose');
 let config = require('./config/config');
@@ -52,6 +53,19 @@ const configuration = {
     key: fs.readFileSync(path.join(__dirname, "localhost-key.pem")),
 }
 
+async function run(sig, nameDoc) {
+    const res = await qrcode.toDataURL(sig);
+    let arr = nameDoc.split('.');
+    //console.log(arr);
+    //fs.writeFileSync('./qr.html', `<img src="${res}">`);
+    //console.log('Wrote to ./qr.html');
+
+
+    fs.writeFileSync(path.join(__dirname, './public/qrCodes/', `./qr${arr[0]}.html`), `<img src="${res}">`);
+    //console.log('Wrote to ./qr.html');
+
+}           
+
 app.post('/upload', function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
@@ -91,6 +105,13 @@ app.post('/upload', function (req, res) {
 
             // Write signature to the file `signature.txt`
             fs.writeFileSync(path.join(__dirname, 'signatures/', sampleFile.name), signature);
+
+
+            let signatureToQR = fs.readFileSync(path.join(__dirname, 'signatures/', sampleFile.name), 'utf-8');
+
+            run(signatureToQR, sampleFile.name).catch(error => console.error(error.stack));
+
+
         }
     });
 
