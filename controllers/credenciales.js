@@ -29,7 +29,7 @@ let createCredencial = function (req, res) {
         password
     } = req.body;
     
-    console.log(req.body);
+    //console.log(req.body);
     
     Credenciales.findOne({email: email})
         .then(user => {
