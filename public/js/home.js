@@ -81,6 +81,16 @@ let enviarDatos = function(id) {
     } 
 }
 
+let sendToQR = function(id) {
+    let str = 'idHeader' + id;
+    let docName = document.getElementById(str);
+    docName = docName.innerText;
+    let arr = docName.split('.');
+    console.log(arr);
+    window.location.href = `../qrCodes/qr${arr[0]}.html`;
+
+}
+
 let cargarDocs = function() {
     let count = 0;
     files.forEach(item => {
@@ -89,6 +99,8 @@ let cargarDocs = function() {
         <img src="../img/document-icon.jpg" alt="Document" >
         <div id="divButton">
         <button onclick="enviarDatos(${count})">Verify</button>
+        <button onclick="sendToQR(${count})">QR</button>
+
         </div>
         </div>`;
         count += 1;
