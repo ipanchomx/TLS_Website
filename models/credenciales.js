@@ -10,6 +10,16 @@ let schema = mongoose.Schema({
     password : {
         type : String,
         required : true,
+    },
+    lastConnection : {
+        type : Date,
+        required : true
+    },
+    countLogin : {
+        type : Number
+    },
+    token : {
+        type : String
     }
 });
 
