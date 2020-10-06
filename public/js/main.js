@@ -39,3 +39,4 @@ if (sessionStorage.login == 'true') {
         Logged in as Username
     </a>`
 }
+
