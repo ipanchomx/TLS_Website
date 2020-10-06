@@ -6,6 +6,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/sign_up.css">
     <title>Document</title>
+    <style>
+        button {
+            padding: 5px;
+            text-align: center;
+            border-radius: 5px;
+            width: 30%;
+            vertical-align: middle;
+            box-sizing: border-box;
+            background-color: rgb(25, 0, 255);
+            box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        button:hover{
+            box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.6);
+            background-color: dodgerblue;
+        }
+
+        #modal {
+            position: absolute;
+            z-index: 2;
+            background-color: white;
+            left : calc(50% - 250px);
+            top : calc(50% - 250px);
+            width: 500px;
+            height: 500px;
+            border: 3px solid #333;
+        }
+
+        #btnCerrar {
+            position: absolute;
+            bottom: 10px;    
+            left: 10px;  
+            background-color: red;
+        }   
+
+        #btnEnviar {
+            position: absolute;
+            bottom: 10px;    
+            right: 10px;  
+            background-color: green;
+        }   
+
+        #modal > img {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            left : calc(50% - 150px);
+            top : 50px;
+            border: 1px solid black;
+        }
+
+        #modal label {
+            position: absolute;
+            bottom: 70px;    
+            right: 200px;  
+            font-size: medium; 
+        }
+
+        #modal input {
+            position: absolute;
+            bottom: 70px;    
+            right: 10px;   
+        }
+
+
+    </style>
 </head>
 
 <body>
@@ -40,6 +107,16 @@
             <input type="submit" value="Create My Account" id="submit" disabled>
         </p>
     </form>
+
+    <div id="modal">
+        <img id="imgQR" src="" alt="">
+        <label style="display: block;" for="code" class="floatLabel">Código</label>
+        <input style="display:block" id="idCode" name="code" type="text">
+
+        <button id="btnCerrar" onclick="cerrarModal()"> Cerrar </button>
+        <button id="btnEnviar" onclick="confirmar()"> Enviar </button>
+
+    </div>
 </body>
 <script src="../js/login.js"></script>
 
