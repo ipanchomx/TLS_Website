@@ -1,13 +1,21 @@
-
 let email = document.getElementById('email');
 let password = document.getElementById('password');
 let span = document.getElementById('spanID');
 let submit = document.getElementById('submit');
 let formLogin = document.getElementById('formLogin');
+let modal = document.querySelector('#modal');
+let btnCerrar = document.querySelector('#btnCerrar');
+let imgQR = document.querySelector('#imgQR');
+let idCode = document.querySelector('#idCode');
 let campos;
 let data;
 
 span.style.display = 'none';
+modal.style.display = 'none';
+
+let cerrarModal = function () {
+    modal.style.display = 'none';
+}
 
 let isEmailValid = function () {
     return (email.value.length > 0);
@@ -42,15 +50,11 @@ formLogin.addEventListener("change", function (E) {
     }
 });
 
-
 let sendData = function() {
-    console.log('Si entré wey');
-
     let data = {
         email : email.value,
         password : password.value
     };
-
     // 1. Crear XMLHttpRequest object
     let xhr = new XMLHttpRequest();
     // 2. Configurar: POST actualizar archivo
@@ -61,7 +65,41 @@ let sendData = function() {
     // 4. Enviar solicitud al servidor
     xhr.send(JSON.stringify(data));
 
-    console.log(JSON.stringify(data));
+    // 5. Una vez recibida la respuesta del servidor
+    xhr.onload = function () {
+        if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
+            // Ocurrió un error
+            //alert(xhr.status + ': ' + xhr.statusText); // e.g. 404: Not Found
+            alert(xhr.status + ': ' + xhr.statusText);
+        
+        } else {
+            data = JSON.parse(xhr.response);
+            modal.style.display = '';
+            imgQR.src = data.url;
+        }
+    };
+
+    return false;
+}
+
+let confirmar = function () {
+
+    let data = {
+        email : email.value,
+        password : password.value,
+        codigo : idCode.value
+    };
+
+    // 1. Crear XMLHttpRequest object
+    let xhr = new XMLHttpRequest();
+    // 2. Configurar: POST actualizar archivo
+    xhr.open('POST','https://localhost:8080/api/verifyToken');
+    // 3. indicar tipo de datos JSON
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    
+    // 4. Enviar solicitud al servidor
+    xhr.send(JSON.stringify(data));
+
     // 5. Una vez recibida la respuesta del servidor
     xhr.onload = function () {
         if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
@@ -72,15 +110,11 @@ let sendData = function() {
         } else {
             //console.log(xhr.responseText); // Significa que fue exitoso
             data = JSON.parse(xhr.response);
-            console.log(data);
+            modal.style.display = 'none';
             sessionStorage.login = true;
             sessionStorage.email = data.email;
-            console.log(sessionStorage);
             alert(xhr.responseText);
-
             window.location.href = "../index.html";
         }
-    };
-
-    return false;
+    };  
 }
