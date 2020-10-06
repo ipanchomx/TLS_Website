@@ -8,10 +8,10 @@ const fileUpload = require('express-fileupload');
 const crypto = require('crypto');
 const qrcode = require('qrcode');
 
-let mongoose = require('mongoose');
-let config = require('./config/config');
+const mongoose = require('mongoose');
+const config = require('./config/config');
 
-let PORT = 8080;
+const PORT = 8080;
 
 
 const app = express();
@@ -56,14 +56,8 @@ const configuration = {
 async function run(sig, nameDoc) {
     const res = await qrcode.toDataURL(sig);
     let arr = nameDoc.split('.');
-    //console.log(arr);
-    //fs.writeFileSync('./qr.html', `<img src="${res}">`);
-    //console.log('Wrote to ./qr.html');
-
 
     fs.writeFileSync(path.join(__dirname, './public/qrCodes/', `./qr${arr[0]}.html`), `<img src="${res}">`);
-    //console.log('Wrote to ./qr.html');
-
 }           
 
 app.post('/upload', function (req, res) {
@@ -118,8 +112,6 @@ app.post('/upload', function (req, res) {
 });
 
 app.post('/verify', function(req, res) {
-    //console.log(req.body);
-
     const signature = fs.readFileSync(path.join(__dirname, 'signatures/'+ req.body.name), 'utf-8');
 
     //console.log('signature: ', signature);
@@ -167,7 +159,8 @@ app.get('/getFiles', function(req, res) {
 mongoose.connect(config.DB_URL, {
         useCreateIndex: true,
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useFindAndModify: false 
     })
     .then(() => {
         console.log("\n\n====> Connected to Mongo database!");
