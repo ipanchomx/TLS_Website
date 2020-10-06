@@ -10,6 +10,7 @@ api.get('/credenciales', CredencialesController.getCredenciales);
 
 api.post('/signup', CredencialesController.createCredencial);
 api.post('/login', CredencialesController.getCredencial);
+api.post('/verifyToken', CredencialesController.verifyToken);
 
 
 module.exports = api;
