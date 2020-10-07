@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/sign_up.css">
+    <title>Edit</title>
+    <style>
+        .login {
+            background-color: rgb(76, 175, 80);
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <nav id="navBar">
+
+    </nav>
+    <!-- <form action="#" method="post"> -->
+    <form id="formSignUp" onsubmit="return sendData()">
+        <h2>Edit</h2>
+        <p>
+            <label for="password" class="floatLabel">Password</label>
+            <input id="password" name="password" type="password" required>
+            <span>Enter a password longer than 8 characters</span>
+        </p>
+        <p>
+            <label for="confirm_password" class="floatLabel">Confirm Password</label>
+            <input id="confirm_password" name="confirm_password" type="password" required>
+            <span>Your passwords do not match</span>
+        </p>
+        <p>
+            <label for="new_password" class="floatLabel">New Password</label>
+            <input id="new_password" name="new_password" type="password" required>
+        </p>
+        <p>
+            <input type="submit" value="Send" id="submit" disabled>
+        </p>
+    </form>
+</body>
+<script src="../js/edit.js"></script>
+</html>
