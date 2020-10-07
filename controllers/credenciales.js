@@ -65,17 +65,21 @@ let getCredencial = function(req, res) {
         email,
         password
     } = req.body;
-
     Credenciales.findOne({email: email})
         .then(user => {
             if(user) {
-
+                if(!bcrypt.compareSync(password, user.password)){
+                    //console.log('Contraseñas desiguales!');
+                    res.status(404).send({message : 'Usuario no encontrado!'});
+                    return;
+                }
+                //console.log('Contraseñas iguales!');
                 let secret = speakeasy.generateSecret({
                     name :"TLS_Website"
                 });
                 // Returns an object with secret.ascii, secret.hex, and secret.base32.
                 // Also returns secret.otpauth_url, which we'll use later.
-                console.log('El token: ',secret.ascii);
+                //console.log('El token: ',secret.ascii);
                 Credenciales.findOneAndUpdate({email : user.email}, {token : secret.ascii}, function(req, res) {});
 
                 // Get the data URL of the authenticator URL
@@ -100,7 +104,7 @@ let verifyToken = function(req, res) {
         .then(user => {
             if(user) {                
 
-                console.log(user);
+                //console.log(user);
                 let tokenPage = user.token;
                 // Use verify() to check the token against the secret
                 let verified = speakeasy.totp.verify({ secret: tokenPage,
@@ -109,7 +113,6 @@ let verifyToken = function(req, res) {
                 });
                     
                 if(bcrypt.compareSync(password, user.password) && verified) {
-                    console.log('Entró al if we');
                     Credenciales.findOneAndUpdate({email : user.email}, {lastConnection : new Date(), countLogin : user.countLogin + 1}, function(req, res) {
                     });
 
@@ -124,9 +127,29 @@ let verifyToken = function(req, res) {
         })    
 }
 
+let editInfo = function(req, res) {
+    let {
+        email,
+        newPassword
+    } = req.body;
+
+    Credenciales.findOne({email: email})
+        .then(user => {
+            if(user) {
+                const hash = bcrypt.hashSync(newPassword, saltRounds);
+                Credenciales.findOneAndUpdate({email : user.email}, {password : hash}, function(req, res) {});
+                res.status(200).send({message: 'Contraseña actualizada'});
+            }
+        }).catch(err => {
+            console.log(err);
+            res.status(500).send({message : 'Server error.', error : `${err}`});
+        })
+}
+
 module.exports = {
     getCredenciales,
     createCredencial,
     getCredencial,
-    verifyToken
+    verifyToken,
+    editInfo
 }
