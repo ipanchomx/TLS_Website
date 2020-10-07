@@ -43,7 +43,6 @@ let navbar = document.getElementById('navBar');
 let cerrarSesion = function () {
     sessionStorage.login = false;
     window.location.href = "../index.html";
-
 }
 
 if (sessionStorage.login == 'true') {
@@ -58,6 +57,9 @@ if (sessionStorage.login == 'true') {
     </a>
     <a href="">
         Contact
+    </a>
+    <a href="../views/edit.html">
+    Edit
     </a>
     <a class="login" id="idLogin" onclick="cerrarSesion()">
         ${sessionStorage.email}

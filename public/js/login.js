@@ -15,6 +15,7 @@ modal.style.display = 'none';
 
 let cerrarModal = function () {
     modal.style.display = 'none';
+    return;
 }
 
 let isEmailValid = function () {
@@ -70,7 +71,8 @@ let sendData = function() {
         if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
             // Ocurrió un error
             //alert(xhr.status + ': ' + xhr.statusText); // e.g. 404: Not Found
-            alert(xhr.status + ': ' + xhr.statusText);
+            //alert(xhr.status + ': ' + xhr.statusText);
+            alert('Las credenciales no son correctas!');
         
         } else {
             data = JSON.parse(xhr.response);

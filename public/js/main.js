@@ -19,6 +19,9 @@ if (sessionStorage.login == 'true') {
     <a href="">
         Contact
     </a>
+    <a href="../views/edit.html">
+        Edit
+    </a>
     <a class="login" id="idLogin" onclick="cerrarSesion()">
         ${sessionStorage.email}
     </a>`

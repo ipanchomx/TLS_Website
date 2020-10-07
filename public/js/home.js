@@ -2,17 +2,7 @@ let data;
 let files = [];
 let grid_container = document.querySelector('#grid-container');
 
-/*
 
-            <div class="xs-100 md-50 lg-33 xl-25">
-                <h2>Heading</h2>
-                <img src="../img/Document-icon-by-rudezstudio-6-580x386.jpg" alt="Document" >
-                <div id="divButton">
-                    <button>Verify</button>
-                </div>
-            </div>
-
-*/
 // 1. Crear XMLHttpRequest object
 let xhr = new XMLHttpRequest();
 // 2. Configurar: POST actualizar archivo
@@ -127,6 +117,9 @@ if (sessionStorage.login == 'true') {
     </a>
     <a href="">
         Contact
+    </a>
+    <a href="../views/edit.html">
+    Edit
     </a>
     <a class="login" id="idLogin" onclick="cerrarSesion()">
         ${sessionStorage.email}
