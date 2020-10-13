@@ -71,6 +71,42 @@ let enviarDatos = function(id) {
     } 
 }
 
+let decrypt = function(id) {
+    let str = 'idHeader' + id;
+    let docName = document.getElementById(str);
+    docName = docName.innerText;
+
+    let data = {
+        id : id,
+        name : docName
+    }
+    //console.log(data);
+    
+    // 1. Crear XMLHttpRequest object
+    let xhr = new XMLHttpRequest();
+    // 2. Configurar: POST actualizar archivo
+    xhr.open('POST', 'https://localhost:8080/decrypt');
+    // 3. indicar tipo de datos JSON
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // 4. Enviar solicitud al servidor
+    xhr.send(JSON.stringify(data));
+
+    //console.log(data);
+    // 5. Una vez recibida la respuesta del servidor
+    xhr.onload = function () {
+        if (xhr.status != 200) { // analizar el estatus de la respuesta HTTP
+            // Ocurrió un error
+            //alert(xhr.status + ': ' + xhr.statusText); // e.g. 404: Not Found
+            alert('Cuidado! El archivo no corresponde con la firma.');
+        } else {
+            //console.log(xhr.responseText); // Significa que fue exitoso
+            //alert(xhr.responseText);
+            alert('El archivo ha sido desencriptado!');
+        }
+    }    
+}
+
 let sendToQR = function(id) {
     let str = 'idHeader' + id;
     let docName = document.getElementById(str);
@@ -90,7 +126,7 @@ let cargarDocs = function() {
         <div id="divButton">
         <button onclick="enviarDatos(${count})">Verify</button>
         <button onclick="sendToQR(${count})">QR</button>
-
+        <button onclick="decrypt(${count})">Decrypt</button>
         </div>
         </div>`;
         count += 1;
