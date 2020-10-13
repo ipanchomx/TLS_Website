@@ -13,6 +13,10 @@ const config = require('./config/config');
 
 const PORT = 8080;
 
+//const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+//const key = '12345678912345678912345678912345';
+const key = crypto.createHash('sha256').update('123456789123456789123456789123456789ABCDEFGHI').digest('base64').substr(0, 32);
 
 const app = express();
 
@@ -83,8 +87,27 @@ app.post('/upload', function (req, res) {
                 filePath : routeFilename
             });
 
+            let data = fs.readFileSync(path.join(__dirname, 'uploads/' + sampleFile.name));
+            let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
+            let encrypted = cipher.update(data);
+            encrypted = Buffer.concat([encrypted, cipher.final()]);
+/*
+            fs.writeFileSync(routeFilename, encrypted.toString('hex'), function(err) {
+                if(err) console.log(err);
+                else {
+                    console.log('Replaced!');
+                }
+            });
+*/
+            fs.writeFileSync(path.join(__dirname, 'uploads/' + sampleFile.name), encrypted, function(err) {
+                if(err) console.log(err);
+                else {
+                    console.log('Replaced!');
+                }
+            });
             // File/Document to be signed
             const doc = fs.readFileSync(path.join(__dirname, 'uploads/' + sampleFile.name));
+            //console.log(doc)
 
             // Signing
 
@@ -95,7 +118,7 @@ app.post('/upload', function (req, res) {
             // Returns the signature in output_format which can be 'binary', 'hex' or 'base64'
             const signature = signer.sign(private_key, 'base64')
 
-            console.log('Digital Signature: ', signature);
+            //console.log('Digital Signature: ', signature);
 
             // Write signature to the file `signature.txt`
             fs.writeFileSync(path.join(__dirname, 'signatures/', sampleFile.name), signature);
@@ -143,6 +166,27 @@ app.post('/verify', function(req, res) {
     }
 });
 
+app.post('/decrypt', function(req, res) {
+    let data = fs.readFileSync(path.join(__dirname, 'uploads/'+ req.body.name));
+
+    //let iv_f = Buffer.from(iv, 'hex');
+    //let encryptedText = Buffer.from(data, 'hex');
+    //let encryptedText = Buffer.from(data);
+    let decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    decipher.setAutoPadding(false);
+    let decrypted = decipher.update(data);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+
+    //console.log('Encrypted text: ' + encryptedText);
+    //console.log('Decrypted text: ' + decrypted);
+
+    const routeFilename = path.join(__dirname, 'decrypt/' + req.body.name);
+    //console.log(routeFilename);
+    fs.writeFileSync(routeFilename, decrypted, {});
+
+    res.status(200).send({message: 'Decrypted!'});
+    //console.log('Hola');
+});
 
 app.get('/getFiles', function(req, res) {
     let url = path.join(__dirname, 'uploads');
@@ -154,7 +198,6 @@ app.get('/getFiles', function(req, res) {
         filepath : url
     });
 });
-
 
 mongoose.connect(config.DB_URL, {
         useCreateIndex: true,
