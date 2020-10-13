@@ -26,13 +26,13 @@ uploadForm.addEventListener('submit', function (e) {
                 resp.json();
                 alert('Archivo almacenado!');
             })
-            .then(data => {
+            /*.then(data => {
                 if (data.errors) {
                     alert(data.errors);
                 } else {
                     console.log(data);
                 }
-            });
+            });*/
     }
 
 });
